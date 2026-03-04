@@ -34,8 +34,7 @@ export default function Details() {
 
                 <div className="detail-block">
                     <h3>Accommodations</h3>
-                    <p>A block of rooms has been reserved at The Grand Hotel. Please use our booking link to secure the group rate.</p>
-                    <button className="utility-btn">Book a Room</button>
+                    <p>Information regarding hotel blocks is currently <strong>TBD</strong>. Please check back soon for updates!</p>
                 </div>
 
                 <div className="detail-block">
