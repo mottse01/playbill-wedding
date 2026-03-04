@@ -1,0 +1,81 @@
+.schedule-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.timeline-event {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.event-act span {
+    font-family: var(--font-ultra);
+    font-size: 1.5rem;
+    background-color: var(--pb-orange-red);
+    color: var(--pb-black);
+    padding: 5px 15px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.event-time {
+    font-family: var(--font-inter);
+    font-weight: 800;
+    font-size: 1.8rem;
+    margin: 0 0 5px 0;
+    color: var(--pb-black);
+}
+
+.event-headline {
+    font-family: var(--font-playfair);
+    font-weight: 700;
+    font-style: italic;
+    font-size: 1.4rem;
+    margin: 0 0 10px 0;
+}
+
+.event-desc {
+    font-family: var(--font-inter);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 400px;
+}
+
+.schedule-actions {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.utility-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--pb-black);
+    color: var(--pb-cream);
+    font-family: var(--font-inter);
+    font-weight: 800;
+    font-size: 1.1rem;
+    padding: 12px 24px;
+    min-height: 48px;
+    /* Touch target optimized */
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.utility-btn:hover {
+    background-color: var(--pb-orange-red);
+    color: var(--pb-black);
+}

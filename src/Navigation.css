@@ -1,0 +1,72 @@
+.playbill-nav {
+    width: 100%;
+    background-color: var(--pb-black);
+    color: var(--pb-cream);
+    padding: 12px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 4px dashed var(--pb-cream);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0;
+    padding: 0 20px;
+    flex-wrap: wrap;
+    /* allow wrapping on small screens */
+}
+
+.nav-links li {
+    margin: 5px 10px;
+}
+
+.nav-links button {
+    background: none;
+    border: none;
+    color: var(--pb-cream);
+    font-family: var(--font-inter);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 10px 15px;
+    /* Minimum 44px height usually covered by line-height + padding */
+    min-height: 44px;
+    /* Explicit touch target size */
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links button:hover {
+    color: var(--pb-orange-red);
+}
+
+.nav-links button.rsvp-btn {
+    background-color: var(--pb-orange-red);
+    color: var(--pb-black);
+    border-radius: 4px;
+    font-weight: 800;
+    padding: 10px 20px;
+    min-height: 44px;
+    border: 2px solid var(--pb-orange-red);
+    transition: all 0.2s ease;
+}
+
+.nav-links button.rsvp-btn:hover {
+    background-color: transparent;
+    color: var(--pb-orange-red);
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+    .nav-links {
+        justify-content: center;
+    }
+}

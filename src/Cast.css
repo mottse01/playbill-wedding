@@ -1,0 +1,83 @@
+.playbill-section {
+    width: 100%;
+    padding: 40px 20px;
+    background-color: var(--pb-cream);
+    border-bottom: var(--pb-border-width) solid var(--pb-black);
+}
+
+.section-title {
+    font-family: var(--font-ultra);
+    font-size: clamp(2rem, 5vw, 3rem);
+    text-align: center;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 4px solid var(--pb-black);
+    padding-bottom: 10px;
+}
+
+.cast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.cast-member {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.headshot-placeholder {
+    width: 100px;
+    height: 120px;
+    background-color: #d0d0d0;
+    border: 2px solid var(--pb-black);
+    flex-shrink: 0;
+}
+
+.cast-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.cast-name {
+    font-family: var(--font-inter);
+    font-weight: 800;
+    font-size: 1.2rem;
+    margin: 0 0 5px 0;
+    text-transform: uppercase;
+}
+
+.cast-role {
+    font-family: var(--font-playfair);
+    font-style: italic;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    color: var(--pb-orange-red);
+}
+
+.cast-bio {
+    font-family: var(--font-inter);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Mobile Cast Reflow */
+@media (max-width: 600px) {
+    .cast-member {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        background-color: white;
+        padding: 20px;
+        border: 2px solid var(--pb-black);
+    }
+
+    .headshot-placeholder {
+        width: 150px;
+        height: 180px;
+        margin-bottom: 10px;
+    }
+}
