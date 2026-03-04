@@ -23,6 +23,18 @@ export default function Cast() {
                     </div>
                 ))}
             </div>
+
+            <div className="gallery-section">
+                <div className="gallery-header">
+                    <h2 className="section-title">Production Stills</h2>
+                    <p className="gallery-subtitle">A sneak peek at the leading couple's favorite moments.</p>
+                </div>
+                <div className="photo-grid">
+                    <div className="photo-item"><img src="/engagement_1.png" alt="Engagement Still 1" /></div>
+                    <div className="photo-item"><img src="/engagement_2.png" alt="Engagement Still 2" /></div>
+                    <div className="photo-item"><img src="/engagement_3.png" alt="Engagement Still 3" /></div>
+                </div>
+            </div>
         </section>
     );
 }
