@@ -73,7 +73,7 @@ export default function RSVP() {
             {submitSuccess ? (
                 <div className="rsvp-success-message" style={{ textAlign: 'center', padding: '20px', border: '2px solid var(--pb-black)', backgroundColor: 'var(--pb-cream)' }}>
                     <h3 style={{ fontFamily: 'var(--font-ultra)', marginBottom: '10px' }}>Tickets Confirmed!</h3>
-                    <p style={{ fontFamily: 'var(--font-inter)' }}>Thank you for your RSVP. Your response has been recorded!</p>
+                    <p style={{ fontFamily: 'var(--font-inter)' }}>Thank you for your RSVP, we look forward to seeing you on October 10th!</p>
                 </div>
             ) : (
                 <form className="rsvp-form" onSubmit={handleSubmit}>
