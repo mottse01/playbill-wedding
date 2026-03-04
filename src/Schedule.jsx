@@ -29,6 +29,7 @@ END:VCALENDAR`;
     return (
         <section id="the-program" className="playbill-section schedule-section">
             <h2 className="section-title">The Program</h2>
+            <p className="schedule-date">October 10th, 2026</p>
             <div className="schedule-timeline">
                 {scheduleEvents.map((event, idx) => (
                     <div key={idx} className="timeline-event">

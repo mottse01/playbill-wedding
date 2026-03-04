@@ -1,3 +1,13 @@
+.schedule-date {
+    text-align: center;
+    font-family: var(--font-playfair);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin: -10px 0 30px 0;
+    color: var(--pb-black);
+}
+
 .schedule-timeline {
     display: flex;
     flex-direction: column;
