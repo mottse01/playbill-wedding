@@ -68,7 +68,7 @@ export default function RSVP() {
     return (
         <section id="box-office" className="playbill-section rsvp-section">
             <h2 className="section-title">Box Office: RSVP</h2>
-            <p className="rsvp-subtitle">Please claim your tickets by September 1st.</p>
+            <p className="rsvp-subtitle">Please claim your tickets by August 1st.</p>
 
             {submitSuccess ? (
                 <div className="rsvp-success-message" style={{ textAlign: 'center', padding: '20px', border: '2px solid var(--pb-black)', backgroundColor: 'var(--pb-cream)' }}>
