@@ -79,7 +79,7 @@ export default function Honeymoon() {
 
             <div className="honeymoon-content">
                 <p className="honeymoon-greeting">
-                    Your presence at our wedding is the greatest gift we could ask for. If you wish to celebrate with a gift, we have created a Honeymoon Fund to help us write our first act as a married couple.
+                    If you'd like to honor us with a gift, we've established a Honeymoon Fund to help us on our first adventure as a married couple.
                 </p>
 
                 <div className="fund-box">
