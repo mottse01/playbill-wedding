@@ -26,7 +26,6 @@ export default function Cast() {
 
             <div className="gallery-section">
                 <div className="gallery-header">
-                    <h2 className="section-title">Production Stills</h2>
                     <p className="gallery-subtitle">A sneak peek at the leading couple's favorite moments.</p>
                 </div>
                 <div className="photo-carousel">

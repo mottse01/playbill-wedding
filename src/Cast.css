@@ -99,7 +99,7 @@
     font-style: italic;
     font-size: 1.1rem;
     color: var(--pb-black);
-    margin-top: -15px;
+    margin: 0;
 }
 
 .photo-carousel {
