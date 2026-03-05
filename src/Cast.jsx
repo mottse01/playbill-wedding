@@ -7,11 +7,7 @@ const castMembers = [
     // Add wedding party here
 ];
 
-const engagementPhotos = [
-    '/engagement_1.jpg',
-    '/engagement_2.jpg',
-    '/engagement_3.jpg',
-];
+const engagementPhotos = Array.from({ length: 24 }, (_, i) => `/engagement_${i + 1}.jpg`);
 
 export default function Cast() {
     return (
