@@ -18,36 +18,36 @@ body {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .pdf-stream {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
   width: 100%;
-  padding-top: 40px;
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
 }
 
 .playbill-page {
   background-color: var(--pb-cream, #F4F3ED);
-  width: 100%;
-  max-width: 600px;
-  min-height: 850px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  border: 1px solid #555;
+  width: 100vw;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 @media (max-width: 600px) {
   .playbill-page {
-    min-height: auto;
-    border-left: none;
-    border-right: none;
-    width: 100vw;
+    border: none;
     box-shadow: none;
   }
 }
