@@ -112,27 +112,28 @@ body {
   background-color: inherit;
 }
 
-/* Scroll Indicators */
-.scroll-indicator {
-  position: sticky;
+/* Global Fixed Scroll Indicator */
+.global-scroll-indicator {
+  position: fixed;
+  /* Lock to the device screen, not the scrollable content */
   bottom: 20px;
-  margin-top: -60px;
-  /* Pull it up into the viewport */
-  height: 60px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  left: 50%;
-  transform: translateX(0);
-  /* Center via flex instead */
+  align-items: center;
+  width: 60px;
+  height: 60px;
   font-family: var(--font-inter);
   font-size: 2rem;
   color: var(--pb-black);
   opacity: 0.6;
   animation: pulse-bounce 2s infinite ease-in-out;
   pointer-events: none;
-  /* Don't interfere with clicks */
-  z-index: 100;
+  /* Let clicks pass through to content underneath */
+  z-index: 1000;
+  /* Extremely high to float over everything */
+  transition: opacity 0.3s ease;
 }
 
 @keyframes pulse-bounce {

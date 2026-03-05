@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Header from './Header';
 import Hero from './Hero';
 import Cast from './Cast';
@@ -10,69 +10,82 @@ import Navigation from './Navigation';
 import './App.css';
 
 function App() {
-  useEffect(() => {
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
+  const [showIndicator, setShowIndicator] = useState(true);
+  const rsvpRef = useRef(null);
 
-    const observer = new IntersectionObserver((entries) => {
+  useEffect(() => {
+    // Observer for fade-reveal animations
+    const animationObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
-          // Once it's visible, we can stop observing it
-          observer.unobserve(entry.target);
+          animationObserver.unobserve(entry.target);
         }
       });
-    }, observerOptions);
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-    const animatedElements = document.querySelectorAll('.fade-reveal');
-    animatedElements.forEach(el => observer.observe(el));
+    document.querySelectorAll('.fade-reveal').forEach(el => animationObserver.observe(el));
 
-    return () => observer.disconnect();
+    // Observer specifically for the final RSVP page to hide the scroll indicator
+    const indicatorObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        // Hide indicator if the RSVP section is taking up most of the screen
+        if (entry.isIntersecting) {
+          setShowIndicator(false);
+        } else {
+          setShowIndicator(true);
+        }
+      });
+    }, { threshold: 0.4 }); // Trigger when 40% of the RSVP page is visible
+
+    if (rsvpRef.current) {
+      indicatorObserver.observe(rsvpRef.current);
+    }
+
+    return () => {
+      animationObserver.disconnect();
+      indicatorObserver.disconnect();
+    };
   }, []);
 
   return (
     <div className="playbill-theme">
       <Navigation />
 
+      {/* Global Scroll Indicator */}
+      {showIndicator && (
+        <div className="global-scroll-indicator" aria-hidden="true">
+          <span>↓</span>
+        </div>
+      )}
+
       <div className="pdf-stream">
-        {/* Page 1: Cover image */}
         <div className="playbill-page playbill-cover-page">
           <Hero />
-          <div className="scroll-indicator" aria-hidden="true"><span>↓</span></div>
         </div>
 
-        {/* Page 2: Cast List */}
         <div className="playbill-page fade-reveal" id="the-cast">
           <Cast />
           <div className="page-footer">- 1 -</div>
-          <div className="scroll-indicator" aria-hidden="true"><span>↓</span></div>
         </div>
 
-        {/* Page 3: Schedule */}
         <div className="playbill-page fade-reveal" id="the-program">
           <Schedule />
           <div className="page-footer">- 2 -</div>
-          <div className="scroll-indicator" aria-hidden="true"><span>↓</span></div>
         </div>
 
-        {/* Page 4: Details */}
         <div className="playbill-page fade-reveal" id="the-setting">
           <Details />
           <div className="page-footer">- 3 -</div>
-          <div className="scroll-indicator" aria-hidden="true"><span>↓</span></div>
         </div>
 
-        {/* Page 5: Honeymoon Fund */}
         <div className="playbill-page fade-reveal" id="honeymoon-fund">
           <Honeymoon />
           <div className="page-footer">- 4 -</div>
-          <div className="scroll-indicator" aria-hidden="true"><span>↓</span></div>
         </div>
 
-        {/* Page 6: RSVP Form */}
-        <div className="playbill-page fade-reveal" id="box-office">
+        {/* Attach ref to the final page to trigger indicator hiding */}
+        <div className="playbill-page fade-reveal" id="box-office" ref={rsvpRef}>
           <RSVP />
           <footer className="playbill-footer">
             <p>&mdash; END &mdash;</p>
