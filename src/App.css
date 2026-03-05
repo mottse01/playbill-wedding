@@ -111,3 +111,33 @@ body {
   border-top: 1px solid var(--pb-black);
   background-color: inherit;
 }
+
+/* Scroll Indicators */
+.scroll-indicator {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-inter);
+  font-size: 2rem;
+  color: var(--pb-black);
+  opacity: 0.6;
+  animation: pulse-bounce 2s infinite ease-in-out;
+  pointer-events: none;
+  /* Don't interfere with clicks */
+  z-index: 10;
+}
+
+@keyframes pulse-bounce {
+
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+    opacity: 0.3;
+  }
+
+  50% {
+    transform: translate(-50%, 10px);
+    opacity: 0.8;
+  }
+}
