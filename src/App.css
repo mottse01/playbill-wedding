@@ -29,7 +29,7 @@ body {
   width: 100%;
   height: 100vh;
   overflow-y: auto;
-  scroll-snap-type: y proximity;
+  scroll-snap-type: y mandatory;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -42,8 +42,8 @@ body {
   position: relative;
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  padding-bottom: 60px;
-  /* Space for the "Program" look and navigation clearance */
+  padding-bottom: 120px;
+  /* Massive safety buffer for hard-snapping content visibility */
 }
 
 @media (max-width: 600px) {
