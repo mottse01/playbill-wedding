@@ -1,10 +1,16 @@
 body {
   background-color: #222;
-  /* Dark background to contrast the pages */
   margin: 0;
-  padding: 40px 20px;
-  /* Spacing from screen edge */
+  padding: 40px 10px;
   box-sizing: border-box;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 10px 5px;
+  }
 }
 
 .pdf-stream {
@@ -20,15 +26,21 @@ body {
   background-color: var(--pb-cream, #F4F3ED);
   width: 100%;
   max-width: 600px;
-  /* Ideal readable width for the Playbill pages */
   min-height: 850px;
-  /* Roughly 1:1.5 ratio to enforce page length minimums */
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   border: 1px solid #555;
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
+}
+
+@media (max-width: 600px) {
+  .playbill-page {
+    min-height: auto;
+    border-left: none;
+    border-right: none;
+  }
 }
 
 /* Ensure inner contents take up space, push footer down */

@@ -24,6 +24,14 @@
     margin: 0 15px;
 }
 
+@media (max-width: 600px) {
+    .fund-box {
+        padding: 20px;
+        border-width: 4px;
+        margin: 0 10px;
+    }
+}
+
 .fund-title {
     font-family: var(--font-ultra);
     font-size: 1.8rem;
@@ -76,6 +84,14 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     text-align: center;
     animation: modalFadeIn 0.3s ease-out forwards;
+}
+
+@media (max-width: 600px) {
+    .modal-content {
+        padding: 30px 20px;
+        border-width: 4px;
+        width: 95%;
+    }
 }
 
 @keyframes modalFadeIn {

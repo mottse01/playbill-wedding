@@ -20,6 +20,13 @@
     text-align: left;
 }
 
+@media (max-width: 600px) {
+    .rsvp-form {
+        padding: 20px 15px;
+        border-width: 4px;
+    }
+}
+
 .form-group {
     margin-bottom: 20px;
 }

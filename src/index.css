@@ -29,6 +29,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 h1,
@@ -48,10 +50,18 @@ a {
 .playbill-container {
   width: 100%;
   max-width: 800px;
-  margin: 20px;
+  margin: 0 auto;
   background-color: white;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+}
+
+@media (max-width: 600px) {
+  .playbill-container {
+    margin: 0;
+    border-left: none;
+    border-right: none;
+  }
 }
 
 /* Scroll Animations */
