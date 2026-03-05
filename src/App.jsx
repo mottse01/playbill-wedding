@@ -40,30 +40,35 @@ function App() {
         {/* Page 1: Cover image */}
         <div className="playbill-page playbill-cover-page">
           <Hero />
+          <div className="scroll-indicator" aria-hidden="true"><span>↓</span></div>
         </div>
 
         {/* Page 2: Cast List */}
         <div className="playbill-page fade-reveal" id="the-cast">
           <Cast />
           <div className="page-footer">- 1 -</div>
+          <div className="scroll-indicator" aria-hidden="true"><span>↓</span></div>
         </div>
 
         {/* Page 3: Schedule */}
         <div className="playbill-page fade-reveal" id="the-program">
           <Schedule />
           <div className="page-footer">- 2 -</div>
+          <div className="scroll-indicator" aria-hidden="true"><span>↓</span></div>
         </div>
 
         {/* Page 4: Details */}
         <div className="playbill-page fade-reveal" id="the-setting">
           <Details />
           <div className="page-footer">- 3 -</div>
+          <div className="scroll-indicator" aria-hidden="true"><span>↓</span></div>
         </div>
 
         {/* Page 5: Honeymoon Fund */}
         <div className="playbill-page fade-reveal" id="honeymoon-fund">
           <Honeymoon />
           <div className="page-footer">- 4 -</div>
+          <div className="scroll-indicator" aria-hidden="true"><span>↓</span></div>
         </div>
 
         {/* Page 6: RSVP Form */}
