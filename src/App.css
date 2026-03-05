@@ -1,7 +1,7 @@
 body {
   background-color: #222;
   margin: 0;
-  padding: 40px 10px;
+  padding: 0;
   box-sizing: border-box;
   width: 100%;
   overflow-x: hidden;
@@ -9,7 +9,7 @@ body {
 
 @media (max-width: 600px) {
   body {
-    padding: 10px 5px;
+    padding: 0;
   }
 }
 
@@ -17,7 +17,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   overflow: hidden;
 }
@@ -26,9 +26,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 100vw;
+  /* Strict width */
   height: 100vh;
   overflow-y: auto;
+  overflow-x: hidden;
+  /* Prevent horizontal scroll */
   scroll-snap-type: y mandatory;
   -webkit-overflow-scrolling: touch;
 }
@@ -36,6 +39,8 @@ body {
 .playbill-page {
   background-color: var(--pb-cream, #F4F3ED);
   width: 100vw;
+  max-width: 100vw;
+  /* Prevent growth */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -43,7 +48,7 @@ body {
   scroll-snap-align: start;
   scroll-snap-stop: always;
   padding-bottom: 120px;
-  /* Massive safety buffer for hard-snapping content visibility */
+  box-sizing: border-box;
 }
 
 @media (max-width: 600px) {
