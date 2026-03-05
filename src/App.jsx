@@ -6,6 +6,7 @@ import Schedule from './Schedule';
 import Details from './Details';
 import Honeymoon from './Honeymoon';
 import RSVP from './RSVP';
+import Navigation from './Navigation';
 import './App.css';
 
 function App() {
