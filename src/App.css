@@ -13,13 +13,20 @@ body {
   }
 }
 
+.playbill-theme {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 .pdf-stream {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 40px;
-  /* Space between the individual pages */
   width: 100%;
+  padding-top: 40px;
 }
 
 .playbill-page {
@@ -40,6 +47,8 @@ body {
     min-height: auto;
     border-left: none;
     border-right: none;
+    width: 100vw;
+    box-shadow: none;
   }
 }
 

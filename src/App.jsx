@@ -32,42 +32,47 @@ function App() {
   }, []);
 
   return (
-    <div className="pdf-stream playbill-theme">
-      {/* Page 1: Cover image */}
-      <div className="playbill-page playbill-cover-page">
-        <Hero />
-      </div>
+    <div className="playbill-theme">
+      <Header />
+      <Navigation />
 
-      {/* Page 2: Cast List */}
-      <div className="playbill-page fade-reveal">
-        <Cast />
-        <div className="page-footer">- 1 -</div>
-      </div>
+      <div className="pdf-stream">
+        {/* Page 1: Cover image */}
+        <div className="playbill-page playbill-cover-page">
+          <Hero />
+        </div>
 
-      {/* Page 3: Schedule */}
-      <div className="playbill-page fade-reveal">
-        <Schedule />
-        <div className="page-footer">- 2 -</div>
-      </div>
+        {/* Page 2: Cast List */}
+        <div className="playbill-page fade-reveal">
+          <Cast />
+          <div className="page-footer">- 1 -</div>
+        </div>
 
-      {/* Page 4: Details */}
-      <div className="playbill-page fade-reveal">
-        <Details />
-        <div className="page-footer">- 3 -</div>
-      </div>
+        {/* Page 3: Schedule */}
+        <div className="playbill-page fade-reveal">
+          <Schedule />
+          <div className="page-footer">- 2 -</div>
+        </div>
 
-      {/* Page 5: Honeymoon Fund */}
-      <div className="playbill-page fade-reveal">
-        <Honeymoon />
-        <div className="page-footer">- 4 -</div>
-      </div>
+        {/* Page 4: Details */}
+        <div className="playbill-page fade-reveal">
+          <Details />
+          <div className="page-footer">- 3 -</div>
+        </div>
 
-      {/* Page 6: RSVP Form */}
-      <div className="playbill-page fade-reveal">
-        <RSVP />
-        <footer className="playbill-footer">
-          <p>&mdash; END &mdash;</p>
-        </footer>
+        {/* Page 5: Honeymoon Fund */}
+        <div className="playbill-page fade-reveal">
+          <Honeymoon />
+          <div className="page-footer">- 4 -</div>
+        </div>
+
+        {/* Page 6: RSVP Form */}
+        <div className="playbill-page fade-reveal">
+          <RSVP />
+          <footer className="playbill-footer">
+            <p>&mdash; END &mdash;</p>
+          </footer>
+        </div>
       </div>
     </div>
   );
