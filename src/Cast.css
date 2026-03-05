@@ -1,5 +1,5 @@
 .playbill-section {
-    width: 100%;
+    width: 100vw;
     max-width: 100vw;
     padding: 30px 15px;
     /* Reduced padding for mobile */
@@ -7,11 +7,13 @@
     border-bottom: var(--pb-border-width) solid var(--pb-black);
     box-sizing: border-box;
     overflow-x: hidden;
+    position: relative;
 }
 
 .section-title {
     font-family: var(--font-ultra);
-    font-size: clamp(1.5rem, 8vw, 2.5rem);
+    font-size: clamp(1.2rem, 7vw, 2.5rem);
+    /* Even smaller for mobile */
     /* Smaller mobile font */
     text-align: center;
     margin-bottom: 30px;
@@ -20,8 +22,10 @@
     border-bottom: 4px solid var(--pb-black);
     padding-bottom: 10px;
     word-wrap: break-word;
-    overflow-wrap: break-word;
+    white-space: normal;
+    /* Force wrapping */
     max-width: 100%;
+    overflow-wrap: break-word;
 }
 
 .cast-grid {

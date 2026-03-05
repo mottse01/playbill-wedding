@@ -16,10 +16,11 @@ body {
 .playbill-theme {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  items-align: center;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  position: relative;
 }
 
 .pdf-stream {
@@ -34,6 +35,7 @@ body {
   /* Prevent horizontal scroll */
   scroll-snap-type: y mandatory;
   -webkit-overflow-scrolling: touch;
+  position: relative;
 }
 
 .playbill-page {
@@ -49,6 +51,7 @@ body {
   scroll-snap-stop: always;
   padding-bottom: 120px;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 @media (max-width: 600px) {
