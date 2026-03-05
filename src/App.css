@@ -29,7 +29,7 @@ body {
   width: 100%;
   height: 100vh;
   overflow-y: auto;
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: y proximity;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -40,9 +40,10 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: hidden;
   scroll-snap-align: start;
   scroll-snap-stop: always;
+  padding-bottom: 60px;
+  /* Space for the "Program" look and navigation clearance */
 }
 
 @media (max-width: 600px) {
