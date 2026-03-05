@@ -13,7 +13,10 @@
     background-repeat: no-repeat;
     background-position: center top;
     /* Align to top for theatrical look */
-    padding: 0 40px;
-    /* Safety gutter to clear Menu button and edges */
+    padding: 20px 60px;
+    /* Stronger gutters for the Menu button */
+    background-origin: content-box;
+    /* Force image INTO the padding area */
+    background-clip: content-box;
     box-sizing: border-box;
 }

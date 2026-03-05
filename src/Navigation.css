@@ -121,6 +121,18 @@
 }
 
 @media (max-width: 600px) {
+    .menu-toggle {
+        width: 40px;
+        height: 40px;
+        top: 10px;
+        right: 10px;
+    }
+
+    .menu-text {
+        display: none;
+        /* Hide text on mobile for more space */
+    }
+
     .playbill-nav {
         width: 100vw;
     }
