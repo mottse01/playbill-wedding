@@ -11,23 +11,24 @@
 
 .section-title {
     font-family: var(--font-ultra);
-    font-size: clamp(1rem, 6vw, 2.5rem);
+    font-size: clamp(0.9rem, 5vw, 2.2rem);
+    /* Even smaller */
     /* Extremely responsive */
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-bottom: 4px solid var(--pb-black);
-    padding-bottom: 10px;
+    letter-spacing: 0.02em;
+    border-bottom: 3px solid var(--pb-black);
+    padding: 0 60px 8px 15px;
+    /* Heavy right padding for Menu clearance */
     word-wrap: break-word;
     white-space: normal;
     /* Force wrapping */
     max-width: 100%;
     overflow-wrap: break-word;
-    padding-right: 60px;
     /* Clear fixed MENU button */
-    padding-left: 20px;
     box-sizing: border-box;
+    display: block;
 }
 
 .cast-grid {
