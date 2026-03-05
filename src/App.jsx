@@ -34,41 +34,46 @@ function App() {
 
   return (
     <div className="playbill-theme">
-      <Header />
       <Navigation />
 
       <div className="pdf-stream">
         {/* Page 1: Cover image */}
         <div className="playbill-page playbill-cover-page">
+          <Header />
           <Hero />
         </div>
 
         {/* Page 2: Cast List */}
         <div className="playbill-page fade-reveal">
+          <Header />
           <Cast />
           <div className="page-footer">- 1 -</div>
         </div>
 
         {/* Page 3: Schedule */}
         <div className="playbill-page fade-reveal">
+          <Header />
           <Schedule />
           <div className="page-footer">- 2 -</div>
         </div>
 
         {/* Page 4: Details */}
         <div className="playbill-page fade-reveal">
+          <Header />
           <Details />
           <div className="page-footer">- 3 -</div>
         </div>
 
         {/* Page 5: Honeymoon Fund */}
         <div className="playbill-page fade-reveal">
+          <Header />
           <Honeymoon />
           <div className="page-footer">- 4 -</div>
         </div>
 
         {/* Page 6: RSVP Form */}
         <div className="playbill-page fade-reveal">
+          <Header />
           <RSVP />
           <footer className="playbill-footer">
             <p>&mdash; END &mdash;</p>
