@@ -15,16 +15,18 @@
     /* Even smaller */
     /* Extremely responsive */
     text-align: center;
-    margin-bottom: 25px;
+    margin: 0 auto 25px auto;
+    /* Centered */
     text-transform: uppercase;
     letter-spacing: 0.02em;
     border-bottom: 3px solid var(--pb-black);
-    padding: 0 60px 8px 15px;
+    padding-bottom: 8px;
     /* Heavy right padding for Menu clearance */
     word-wrap: break-word;
     white-space: normal;
     /* Force wrapping */
-    max-width: 100%;
+    max-width: calc(100% - 100px);
+    /* Leave 50px on each side for Menu clearance */
     overflow-wrap: break-word;
     /* Clear fixed MENU button */
     box-sizing: border-box;

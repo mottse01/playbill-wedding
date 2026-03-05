@@ -11,5 +11,9 @@
     background-image: url('/cover.png');
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center top;
+    /* Align to top for theatrical look */
+    padding: 0 40px;
+    /* Safety gutter to clear Menu button and edges */
+    box-sizing: border-box;
 }
