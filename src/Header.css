@@ -60,10 +60,31 @@
     fill: var(--pb-black);
 }
 
-.svg-subtitle-content {
-    font-family: var(--font-playfair);
-    font-style: italic;
-    font-weight: 700;
-    font-size: 26px;
-    fill: var(--pb-black);
+font-size: 26px;
+fill: var(--pb-black);
+}
+
+@media (max-width: 600px) {
+    .playbill-header {
+        flex-direction: column;
+    }
+
+    .header-left {
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid var(--pb-black);
+        padding: 5px;
+    }
+
+    .venue-text {
+        flex-direction: row;
+        gap: 10px;
+        justify-content: center;
+        font-size: 0.9rem;
+    }
+
+    .header-right {
+        width: 100%;
+        padding: 10px 5px;
+    }
 }
