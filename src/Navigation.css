@@ -2,40 +2,42 @@
     width: 100%;
     background-color: var(--pb-black);
     color: var(--pb-cream);
-    padding: 12px 0;
     position: sticky;
     top: 0;
-    z-index: 100;
-    border-bottom: 4px dashed var(--pb-cream);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    padding: 10px 0;
+    border-bottom: 2px solid var(--pb-orange-red);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .nav-links {
     list-style: none;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
+    gap: 20px;
+    padding: 0;
     margin: 0;
-    padding: 0 20px;
     flex-wrap: wrap;
     /* allow wrapping on small screens */
 }
 
 .nav-links li {
-    margin: 5px 10px;
+    padding: 0;
 }
 
 .nav-links button {
     background: none;
     border: none;
-    color: var(--pb-cream);
+    color: white;
     font-family: var(--font-inter);
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 10px 15px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    padding: 5px 10px;
     /* Minimum 44px height usually covered by line-height + padding */
     min-height: 44px;
     /* Explicit touch target size */

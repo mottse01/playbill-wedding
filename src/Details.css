@@ -15,10 +15,17 @@
 
 .detail-block h3 {
     font-family: var(--font-ultra);
-    font-size: 2rem;
+    font-size: clamp(1.4rem, 5vw, 2rem);
     margin: 0 0 15px 0;
     text-transform: uppercase;
     color: var(--pb-orange-red);
+    word-wrap: break-word;
+}
+
+@media (max-width: 600px) {
+    .detail-block {
+        padding: 20px 15px;
+    }
 }
 
 .detail-block p {

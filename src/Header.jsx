@@ -1,7 +1,17 @@
 import React from 'react';
 import './Header.css';
 
-export default function Header() {
+export default function Header({ title }) {
+  if (title) {
+    return (
+      <div className="section-header">
+        <div className="header-line"></div>
+        <h2 className="section-title">{title}</h2>
+        <div className="header-line"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="playbill-header">
       {/* Left side: Venue details roughly 20% width */}
@@ -22,7 +32,6 @@ export default function Header() {
             aria-hidden="true"
             preserveAspectRatio="xMidYMid meet"
           >
-            {/* Left anchored at 0, stretched exactly to 1000 (the viewBox limit) for pure edge-to-edge */}
             <text
               x="0"
               y="130"
@@ -32,7 +41,6 @@ export default function Header() {
             >
               PLAYBILL
             </text>
-            {/* Right anchored exactly at 1000 to match the "L" edge perfectly */}
             <text
               x="1000"
               y="165"
