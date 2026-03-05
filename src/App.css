@@ -114,10 +114,17 @@ body {
 
 /* Scroll Indicators */
 .scroll-indicator {
-  position: absolute;
+  position: sticky;
   bottom: 20px;
+  margin-top: -60px;
+  /* Pull it up into the viewport */
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(0);
+  /* Center via flex instead */
   font-family: var(--font-inter);
   font-size: 2rem;
   color: var(--pb-black);
@@ -125,7 +132,7 @@ body {
   animation: pulse-bounce 2s infinite ease-in-out;
   pointer-events: none;
   /* Don't interfere with clicks */
-  z-index: 10;
+  z-index: 100;
 }
 
 @keyframes pulse-bounce {
