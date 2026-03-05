@@ -16,7 +16,7 @@ body {
 .playbill-theme {
   display: flex;
   flex-direction: column;
-  items-align: center;
+  align-items: center;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
