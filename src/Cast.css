@@ -3,7 +3,6 @@
     max-width: 100vw;
     padding: 30px 10px;
     background-color: var(--pb-cream);
-    border-bottom: var(--pb-border-width) solid var(--pb-black);
     box-sizing: border-box;
     overflow-x: hidden;
     position: relative;
