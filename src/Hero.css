@@ -1,6 +1,6 @@
 .playbill-hero {
     width: 100%;
-    aspect-ratio: 2/3;
+    height: 100%;
     position: relative;
 }
 
@@ -9,5 +9,5 @@
     height: 100%;
     background-image: url('/cover.png');
     background-size: cover;
-    background-position: center;
+    background-position: center bottom;
 }

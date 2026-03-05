@@ -1,49 +1,101 @@
-.playbill-nav {
-    width: 100%;
+/* Floating Menu Toggle */
+.menu-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2000;
     background-color: var(--pb-black);
-    color: var(--pb-cream);
-    position: sticky;
+    color: white;
+    border: 2px solid var(--pb-orange-red);
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-family: var(--font-inter);
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.menu-toggle.open {
+    background-color: var(--pb-orange-red);
+    color: var(--pb-black);
+    border-color: var(--pb-black);
+}
+
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 18px;
+}
+
+.hamburger span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+    transition: all 0.3s ease;
+}
+
+.menu-toggle.open .hamburger span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+}
+
+.menu-toggle.open .hamburger span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.open .hamburger span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+/* Hidden Navigation Overlay */
+.playbill-nav {
+    position: fixed;
     top: 0;
-    z-index: 1000;
-    padding: 10px 0;
-    border-bottom: 2px solid var(--pb-orange-red);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    right: 0;
+    width: 300px;
+    height: 100vh;
+    background-color: var(--pb-black);
+    z-index: 1500;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 5px solid var(--pb-orange-red);
+}
+
+.playbill-nav.open {
+    transform: translateX(0);
 }
 
 .nav-links {
     list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
     padding: 0;
     margin: 0;
-    flex-wrap: wrap;
-    /* allow wrapping on small screens */
-}
-
-.nav-links li {
-    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    text-align: right;
+    width: 100%;
+    padding-right: 40px;
 }
 
 .nav-links button {
     background: none;
     border: none;
     color: white;
-    font-family: var(--font-inter);
+    font-family: var(--font-ultra);
+    font-size: 1.5rem;
     text-transform: uppercase;
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 0.12em;
     cursor: pointer;
+    letter-spacing: 0.05em;
     transition: color 0.3s ease;
-    padding: 5px 10px;
-    /* Minimum 44px height usually covered by line-height + padding */
-    min-height: 44px;
-    /* Explicit touch target size */
-    transition: color 0.2s ease;
-    display: flex;
-    align-items: center;
 }
 
 .nav-links button:hover {
@@ -51,39 +103,30 @@
 }
 
 .nav-links button.rsvp-btn {
-    background-color: var(--pb-orange-red);
-    color: var(--pb-black);
-    border-radius: 4px;
-    font-weight: 800;
-    padding: 10px 20px;
-    min-height: 44px;
-    border: 2px solid var(--pb-orange-red);
-    transition: all 0.2s ease;
-}
-
-.nav-links button.rsvp-btn:hover {
-    background-color: transparent;
     color: var(--pb-orange-red);
+    border: 2px solid var(--pb-orange-red);
+    padding: 10px 20px;
+    margin-top: 10px;
 }
 
-/* Mobile adjustments */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 1400;
+}
+
 @media (max-width: 600px) {
     .playbill-nav {
-        padding: 6px 0;
+        width: 100vw;
     }
 
     .nav-links {
-        justify-content: center;
-        padding: 0 10px;
-    }
-
-    .nav-links button {
-        font-size: 0.8rem;
-        padding: 8px 10px;
-        min-height: 40px;
-    }
-
-    .nav-links button.rsvp-btn {
-        padding: 8px 12px;
+        text-align: center;
+        padding-right: 0;
     }
 }
