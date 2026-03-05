@@ -7,6 +7,12 @@ const castMembers = [
     // Add wedding party here
 ];
 
+const engagementPhotos = [
+    '/engagement_1.jpg',
+    '/engagement_2.jpg',
+    '/engagement_3.jpg',
+];
+
 export default function Cast() {
     return (
         <section id="the-cast" className="playbill-section cast-section">
@@ -29,9 +35,11 @@ export default function Cast() {
                     <p className="gallery-subtitle">A sneak peek at the leading couple's favorite moments.</p>
                 </div>
                 <div className="photo-carousel">
-                    <div className="photo-item"><img src="/engagement_1.png" alt="Engagement Still 1" /></div>
-                    <div className="photo-item"><img src="/engagement_2.png" alt="Engagement Still 2" /></div>
-                    <div className="photo-item"><img src="/engagement_3.png" alt="Engagement Still 3" /></div>
+                    {engagementPhotos.map((photo, idx) => (
+                        <div key={idx} className="photo-item">
+                            <img src={photo} alt={`Engagement Still ${idx + 1}`} />
+                        </div>
+                    ))}
                 </div>
             </div>
         </section>
