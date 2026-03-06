@@ -9,7 +9,6 @@ body {
   overflow-x: hidden;
   margin: 0;
   padding: 0;
-  background-color: var(--pb-black);
 }
 
 :root {
@@ -39,7 +38,7 @@ body {
   padding: 0;
   font-family: var(--font-inter);
   min-height: 100vh;
-  background-color: var(--pb-black);
+  background-color: var(--pb-cream);
   display: flex;
   justify-content: center;
   align-items: flex-start;
