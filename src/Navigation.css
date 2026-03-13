@@ -122,23 +122,10 @@
 
 @media (max-width: 600px) {
     .menu-toggle {
-        width: 44px;
-        /* Slightly larger for touch */
-        height: 44px;
         top: 10px;
         right: 15px;
-        /* Give it more room from the edge */
-        padding: 0;
-        justify-content: center;
-    }
-
-    .menu-text {
-        display: none !important;
-        /* Force hide text for minimalism */
-    }
-
-    .hamburger-icon {
-        margin: 0;
+        padding: 8px 12px 8px 10px;
+        font-size: 0.75rem;
     }
 
     .playbill-nav {
