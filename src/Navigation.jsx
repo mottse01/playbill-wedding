@@ -7,7 +7,7 @@ export default function Navigation() {
     const scrollTo = (id) => {
         const element = document.getElementById(id);
         if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
+            element.scrollIntoView({ behavior: 'smooth', inline: 'start' });
             setIsOpen(false);
         }
     };
