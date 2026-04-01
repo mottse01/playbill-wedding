@@ -9,14 +9,8 @@
     width: 100%;
     height: 100%;
     background-image: url('/cover.png');
-    background-size: contain;
+    background-size: auto 100%;
+    background-position: center;
     background-repeat: no-repeat;
     background-position: center top;
-    /* Align to top for theatrical look */
-    padding: 20px 60px;
-    /* Stronger gutters for the Menu button */
-    background-origin: content-box;
-    /* Force image INTO the padding area */
-    background-clip: content-box;
-    box-sizing: border-box;
 }

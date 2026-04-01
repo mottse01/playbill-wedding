@@ -54,9 +54,17 @@
 }
 
 .headshot-placeholder {
-    width: 100px;
-    height: 120px;
+    width: 120px;
+    aspect-ratio: 4 / 5;
     background-color: #d0d0d0;
+    border: 2px solid var(--pb-black);
+    flex-shrink: 0;
+}
+
+.headshot-image {
+    width: 120px;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
     border: 2px solid var(--pb-black);
     flex-shrink: 0;
 }
@@ -100,9 +108,9 @@
         border: 2px solid var(--pb-black);
     }
 
-    .headshot-placeholder {
-        width: 150px;
-        height: 180px;
+    .headshot-placeholder, .headshot-image {
+        width: 160px;
+        height: auto;
         margin-bottom: 10px;
     }
 }

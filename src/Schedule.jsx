@@ -4,7 +4,7 @@ import './Schedule.css';
 
 const scheduleEvents = [
     { act: 'Act I', time: '5:00 PM', title: 'The Ceremony', description: 'Please be seated as the curtain rises on our new life together.' },
-    { act: 'Intermission', time: '5:30 PM', title: 'Cocktail Hour', description: 'Drinks, hors d\'oeuvres, and mingling.' },
+    { act: 'Intermission', time: '6:00 PM', title: 'Cocktail Hour', description: 'Drinks, hors d\'oeuvres, and mingling.' },
     { act: 'Act II', time: '7:00 PM', title: 'Dinner & Reception', description: 'A night of dinner, dancing, and celebration.' },
 ];
 

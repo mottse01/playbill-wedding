@@ -2,8 +2,8 @@ import React from 'react';
 import './Cast.css';
 
 const castMembers = [
-    { name: 'Sean Mott', role: 'The Groom', bio: 'Sean is starring in his biggest role yet.' },
-    { name: 'Desiree', role: 'The Bride', bio: 'Desiree is ready for her close-up.' },
+    { name: 'Sean Mott', role: 'The Groom', bio: 'Sean is starring in his biggest role yet.', image: '/desiree.jpg' },
+    { name: 'Desiree Bernavel', role: 'The Bride', bio: 'Desiree is ready for her close-up.', image: '/sean.jpg' },
     // Add wedding party here
 ];
 
@@ -16,7 +16,7 @@ export default function Cast() {
             <div className="cast-grid">
                 {castMembers.map((member, idx) => (
                     <div key={idx} className="cast-member">
-                        <div className="headshot-placeholder"></div>
+                        {member.image ? <img src={member.image} alt={member.name} className="headshot-image" /> : <div className="headshot-placeholder"></div>}
                         <div className="cast-info">
                             <h3 className="cast-name">{member.name}</h3>
                             <p className="cast-role">{member.role}</p>

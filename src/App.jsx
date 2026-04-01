@@ -13,6 +13,7 @@ function App() {
   const containerRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const handleScroll = () => {
     if (!containerRef.current) return;
@@ -21,12 +22,23 @@ function App() {
     // Add small buffer for pixel rounding issues on high DPI screens
     setCanScrollLeft(scrollLeft > 10);
     setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth - 10);
+
+    const index = Math.round(scrollLeft / clientWidth);
+    setActiveIndex(index);
   };
 
+  const totalPages = 6;
+  
   const scrollByPage = (direction) => {
     if (containerRef.current) {
-      // 100vw is precisely the width of one page/flex-item due to flex: 0 0 100vw
-      containerRef.current.scrollBy({ left: direction * window.innerWidth, behavior: 'smooth' });
+      const nextIndex = Math.max(0, Math.min(activeIndex + direction, totalPages - 1));
+      containerRef.current.children[nextIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  };
+
+  const scrollToPage = (index) => {
+    if (containerRef.current) {
+      containerRef.current.children[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
   };
 
@@ -41,7 +53,10 @@ function App() {
       });
     }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-    document.querySelectorAll('.fade-reveal').forEach(el => animationObserver.observe(el));
+    document.querySelectorAll('.playbill-section').forEach(el => {
+      el.classList.add('fade-reveal');
+      animationObserver.observe(el);
+    });
 
     // Handle scroll check on load and resize
     handleScroll();
@@ -55,6 +70,7 @@ function App() {
 
   return (
     <div className="playbill-theme">
+      
       <Navigation />
 
       {/* Floating navigation arrows */}
@@ -68,42 +84,32 @@ function App() {
         ) : <div style={{width: 58}}></div>}
       </div>
 
+      
+
       <div className="pdf-stream" ref={containerRef} onScroll={handleScroll}>
         <div className="playbill-page playbill-cover-page">
           <Hero />
-          <div className="scroll-indicator" aria-hidden="true"><span>→</span></div>
         </div>
 
-        <div className="playbill-page fade-reveal" id="the-cast">
+        <div className="playbill-page" id="the-cast">
           <Cast />
-          <div className="page-footer">- 1 -</div>
-          <div className="scroll-indicator" aria-hidden="true"><span>→</span></div>
         </div>
 
-        <div className="playbill-page fade-reveal" id="the-program">
+        <div className="playbill-page" id="the-program">
           <Schedule />
-          <div className="page-footer">- 2 -</div>
-          <div className="scroll-indicator" aria-hidden="true"><span>→</span></div>
         </div>
 
-        <div className="playbill-page fade-reveal" id="the-setting">
+        <div className="playbill-page" id="the-setting">
           <Details />
-          <div className="page-footer">- 3 -</div>
-          <div className="scroll-indicator" aria-hidden="true"><span>→</span></div>
         </div>
 
-        <div className="playbill-page fade-reveal" id="honeymoon-fund">
+        <div className="playbill-page" id="honeymoon-fund">
           <Honeymoon />
-          <div className="page-footer">- 4 -</div>
-          <div className="scroll-indicator" aria-hidden="true"><span>→</span></div>
         </div>
 
         {/* Final page has NO indicator */}
-        <div className="playbill-page fade-reveal" id="box-office">
+        <div className="playbill-page" id="box-office">
           <RSVP />
-          <footer className="playbill-footer">
-            <p>&mdash; END &mdash;</p>
-          </footer>
         </div>
       </div>
     </div>
