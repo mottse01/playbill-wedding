@@ -24,7 +24,6 @@ export default function Navigation() {
                     <span></span>
                     <span></span>
                 </div>
-                <span className="menu-label">{isOpen ? 'CLOSE' : 'MENU'}</span>
             </button>
 
             <nav className={`playbill-nav ${isOpen ? 'open' : ''}`}>
