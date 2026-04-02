@@ -74,9 +74,7 @@
     padding-top: max(20px, env(safe-area-inset-top, 20px));
     padding-bottom: max(20px, env(safe-area-inset-bottom, 20px));
     box-sizing: border-box;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    pointer-events: none;
+    overflow: hidden;
 }
 
 .modal-content {
@@ -90,7 +88,9 @@
     text-align: center;
     animation: modalFadeIn 0.3s ease-out forwards;
     margin: auto;
-    pointer-events: auto;
+    max-height: calc(100dvh - 40px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 @media (max-width: 600px) {

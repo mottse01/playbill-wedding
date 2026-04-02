@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import './Honeymoon.css';
 
@@ -73,6 +73,67 @@ export default function Honeymoon() {
         }, 300);
     };
 
+
+    // When modal is open, intercept horizontal swipes and forward them to the
+    // page scroller (.pdf-stream) so users can still navigate pages.
+    useEffect(() => {
+        if (!isModalOpen) return;
+
+        let startX, startY, prevX, direction;
+
+        const onTouchStart = (e) => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            prevX  = startX;
+            direction = null;
+        };
+
+        const onTouchMove = (e) => {
+            if (startX === undefined) return;
+            const dx = e.touches[0].clientX - startX;
+            const dy = e.touches[0].clientY - startY;
+
+            // Decide direction once we have enough movement
+            if (direction === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+                direction = Math.abs(dx) > Math.abs(dy) * 1.3 ? 'h' : 'v';
+            }
+
+            if (direction === 'h') {
+                e.preventDefault(); // stop vertical scroll / default browser gestures
+                const pdfStream = document.querySelector('.pdf-stream');
+                if (pdfStream) {
+                    pdfStream.scrollLeft += prevX - e.touches[0].clientX;
+                }
+                prevX = e.touches[0].clientX;
+            }
+        };
+
+        const onTouchEnd = () => {
+            if (direction === 'h') {
+                // Let CSS scroll-snap finish the job
+                const pdfStream = document.querySelector('.pdf-stream');
+                if (pdfStream) {
+                    const pageWidth = pdfStream.clientWidth;
+                    const nearest = Math.round(pdfStream.scrollLeft / pageWidth);
+                    pdfStream.scrollTo({ left: nearest * pageWidth, behavior: 'smooth' });
+                }
+            }
+            startX = startY = prevX = undefined;
+            direction = null;
+        };
+
+        // Use non-passive touchmove so we can call preventDefault()
+        document.addEventListener('touchstart', onTouchStart, { passive: true });
+        document.addEventListener('touchmove',  onTouchMove,  { passive: false });
+        document.addEventListener('touchend',   onTouchEnd,   { passive: true });
+
+        return () => {
+            document.removeEventListener('touchstart', onTouchStart);
+            document.removeEventListener('touchmove',  onTouchMove);
+            document.removeEventListener('touchend',   onTouchEnd);
+        };
+    }, [isModalOpen]);
+
     return (
         <section id="honeymoon-fund" className="playbill-section honeymoon-section">
             <h2 className="section-title">Curtain Call: The Honeymoon</h2>
@@ -93,7 +154,7 @@ export default function Honeymoon() {
             </div>
 
             {isModalOpen && createPortal(
-                <div className="modal-overlay">
+                <div className="modal-overlay" onClick={resetModal}>
                     <div className={modalStep === 1 ? "modal-content form-mode" : "modal-content"} onClick={e => e.stopPropagation()}>
                         <button className="modal-close" onClick={resetModal} aria-label="Close modal">×</button>
 
