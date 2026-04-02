@@ -68,10 +68,14 @@
     background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     z-index: 1000;
     padding: 20px;
+    padding-top: max(20px, env(safe-area-inset-top, 20px));
+    padding-bottom: max(20px, env(safe-area-inset-bottom, 20px));
     box-sizing: border-box;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .modal-content {
@@ -84,6 +88,7 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     text-align: center;
     animation: modalFadeIn 0.3s ease-out forwards;
+    margin: auto;
 }
 
 @media (max-width: 600px) {
@@ -91,6 +96,7 @@
         padding: 30px 20px;
         border-width: 4px;
         width: 95%;
+        margin: auto;
     }
 }
 
