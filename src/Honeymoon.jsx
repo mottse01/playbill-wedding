@@ -93,7 +93,7 @@ export default function Honeymoon() {
             </div>
 
             {isModalOpen && createPortal(
-                <div className="modal-overlay" onClick={resetModal}>
+                <div className="modal-overlay">
                     <div className={modalStep === 1 ? "modal-content form-mode" : "modal-content"} onClick={e => e.stopPropagation()}>
                         <button className="modal-close" onClick={resetModal} aria-label="Close modal">×</button>
 
