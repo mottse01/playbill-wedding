@@ -4,11 +4,18 @@ import './RSVP.css';
 // Replace this URL once you set up your SheetDB or Google Apps Script Web App
 const SHEET_API_URL = "https://sheetdb.io/api/v1/690vy6jy2cx6b?sheet=RSVPs";
 
+const newSubmissionId = () =>
+    typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+        ? crypto.randomUUID()
+        : `rsvp-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
+
 export default function RSVP() {
     const [formData, setFormData] = useState({
         Name: '',
+        GuestNames: ['', ''],
         Email: '',
         Attending: '',
+        PartyMode: '',
         Dietary: '',
         SongRequest: ''
     });
@@ -18,7 +25,53 @@ export default function RSVP() {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        
+        setFormData(prev => {
+            if (name === 'Attending' && value === 'No') {
+                // If they say no, merge names down
+                const mergedName = prev.PartyMode === 'team'
+                    ? prev.GuestNames.map(n => n.trim()).filter(Boolean).join('; ')
+                    : (prev.Name || '').trim();
+                
+                return {
+                    ...prev,
+                    Attending: value,
+                    Dietary: '',
+                    SongRequest: '',
+                    Email: '',
+                    PartyMode: '',
+                    GuestNames: ['', ''],
+                    Name: mergedName
+                };
+            }
+            return { ...prev, [name]: value };
+        });
+    };
+
+    const setPartyMode = (mode) => {
+        setFormData(prev => {
+            if (mode === 'team') {
+                const seed = prev.PartyMode === 'solo' ? (prev.Name || '').trim() : (prev.GuestNames[0] || '').trim();
+                const g = prev.PartyMode === 'team' ? [...prev.GuestNames] : seed ? [seed, ''] : ['', ''];
+                while (g.length < 2) g.push('');
+                return { ...prev, PartyMode: 'team', GuestNames: g };
+            }
+            const name = prev.PartyMode === 'team' ? (prev.GuestNames[0] || '') : prev.Name;
+            return { ...prev, PartyMode: 'solo', Name: name };
+        });
+    };
+
+    const setGuestAt = (i, value) => {
+        setFormData(prev => ({ ...prev, GuestNames: prev.GuestNames.map((x, j) => (j === i ? value : x)) }));
+    };
+
+    const addGuest = () => setFormData(prev => ({ ...prev, GuestNames: [...prev.GuestNames, ''] }));
+
+    const removeGuest = i => {
+        setFormData(prev => {
+            if (prev.GuestNames.length <= 2) return prev;
+            return { ...prev, GuestNames: prev.GuestNames.filter((_, j) => j !== i) };
+        });
     };
 
     const handleSubmit = async (e) => {
@@ -26,22 +79,53 @@ export default function RSVP() {
         setIsSubmitting(true);
         setSubmitError('');
 
-        // Prepare the payload with exactly the headers required for the Google Sheet
-        const payload = {
-            data: [
-                {
-                    Name: formData.Name,
-                    Email: formData.Email,
-                    Attending: formData.Attending,
-                    Dietary: formData.Dietary,
-                    SongRequest: formData.SongRequest,
-                    Timestamp: new Date().toLocaleString()
-                }
-            ]
+        const ts = new Date().toLocaleString();
+        const submissionId = newSubmissionId();
+        
+        const base = {
+            Email: formData.Attending === 'No' ? '' : formData.Email,
+            Attending: formData.Attending,
+            PartyMode: formData.Attending === 'No' ? '' : formData.PartyMode,
+            Dietary: formData.Attending === 'No' ? '' : formData.Dietary,
+            SongRequest: formData.Attending === 'No' ? '' : formData.SongRequest,
+            Timestamp: ts,
         };
 
+        let rows;
+
+        if (formData.Attending === 'No') {
+            const displayName = formData.Name.trim();
+            if (!displayName) {
+                setSubmitError('Please provide your name.');
+                setIsSubmitting(false);
+                return;
+            }
+            rows = [{ SubmissionId: submissionId, Name: displayName, IsPrimary: 'yes', ...base }];
+        } else if (formData.PartyMode === 'solo') {
+            const n = formData.Name.trim();
+            if (!n) {
+                setSubmitError('Please provide your name.');
+                setIsSubmitting(false);
+                return;
+            }
+            rows = [{ SubmissionId: submissionId, Name: n, IsPrimary: 'yes', ...base }];
+        } else {
+            const names = formData.GuestNames.map(n => n.trim()).filter(Boolean);
+            if (names.length < 2) {
+                setSubmitError('Please provide at least 2 names for your party.');
+                setIsSubmitting(false);
+                return;
+            }
+            rows = names.map((guestName, i) => ({
+                SubmissionId: submissionId,
+                Name: guestName,
+                IsPrimary: i === 0 ? 'yes' : 'no',
+                ...base,
+            }));
+        }
+
         try {
-            console.log("Submitting to Google Sheets RSVPs tab:", payload);
+            console.log("Submitting to Google Sheets RSVPs tab:", { data: rows });
 
             const response = await fetch(SHEET_API_URL, {
                 method: 'POST',
@@ -49,7 +133,7 @@ export default function RSVP() {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(payload)
+                body: JSON.stringify({ data: rows })
             });
 
             if (!response.ok) {
@@ -77,35 +161,10 @@ export default function RSVP() {
                 </div>
             ) : (
                 <form className="rsvp-form" onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="name">Full Name(s)</label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="Name"
-                            value={formData.Name}
-                            onChange={handleInputChange}
-                            placeholder="John & Jane Doe"
-                            required
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="email">Email Address</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="Email"
-                            value={formData.Email}
-                            onChange={handleInputChange}
-                            placeholder="yourname@example.com"
-                            required
-                        />
-                    </div>
-
+                    
                     <div className="form-group">
                         <label>Will you be attending?</label>
-                        <div className="radio-group">
+                        <div className="radio-group" style={{ flexDirection: 'row', gap: '20px' }}>
                             <label>
                                 <input
                                     type="radio"
@@ -130,33 +189,159 @@ export default function RSVP() {
                         </div>
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="restrictions">Dietary Restrictions</label>
-                        <textarea
-                            id="restrictions"
-                            name="Dietary"
-                            value={formData.Dietary}
-                            onChange={handleInputChange}
-                            rows="2"
-                            placeholder="Any allergies or dietary needs?"
-                        />
-                    </div>
+                    {formData.Attending === 'Yes' ? (
+                        <>
+                            <div className="form-group" style={{ marginTop: '30px' }}>
+                                <label>Coming solo or with guests?</label>
+                                <div className="radio-group" style={{ flexDirection: 'row', gap: '20px' }}>
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name="PartyMode"
+                                            value="solo"
+                                            required
+                                            checked={formData.PartyMode === 'solo'}
+                                            onChange={() => setPartyMode('solo')}
+                                        />
+                                        Just Me
+                                    </label>
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name="PartyMode"
+                                            value="team"
+                                            checked={formData.PartyMode === 'team'}
+                                            onChange={() => setPartyMode('team')}
+                                        />
+                                        Bringing Guest(s)
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            {formData.PartyMode === 'solo' ? (
+                                <div className="form-group" style={{ marginTop: '20px' }}>
+                                    <label htmlFor="name">Your Name *</label>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        name="Name"
+                                        value={formData.Name}
+                                        onChange={handleInputChange}
+                                        placeholder="John Doe"
+                                        required
+                                    />
+                                </div>
+                            ) : formData.PartyMode === 'team' ? (
+                                <div className="rsvp-guest-list" style={{ marginTop: '20px', padding: '15px', backgroundColor: 'rgba(0,0,0,0.03)', border: '2px dashed var(--pb-black)', borderRadius: '4px' }}>
+                                    {formData.GuestNames.map((g, i) => (
+                                        <div key={i} className="form-group rsvp-guest-row" style={{ marginBottom: i === formData.GuestNames.length - 1 ? '10px' : '20px' }}>
+                                            <div className="rsvp-guest-field">
+                                                <label htmlFor={`rsvp-guest-${i}`}>
+                                                    {i === 0 ? 'Your Name *' : `Guest ${i} Name *`}
+                                                </label>
+                                                <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
+                                                    <input
+                                                        id={`rsvp-guest-${i}`}
+                                                        type="text"
+                                                        value={g}
+                                                        onChange={e => setGuestAt(i, e.target.value)}
+                                                        placeholder="Jane Doe"
+                                                        required
+                                                        style={{flex: 1, marginBottom: 0}}
+                                                    />
+                                                    {formData.GuestNames.length > 2 ? (
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => removeGuest(i)}
+                                                            className="rsvp-remove-btn"
+                                                            style={{
+                                                                width: '40px', height: '48px', flexShrink: 0,
+                                                                backgroundColor: 'var(--pb-black)', color: 'white',
+                                                                border: 'none', cursor: 'pointer', fontFamily: 'var(--font-inter)', fontWeight: 'bold'
+                                                            }}
+                                                        >
+                                                            &times;
+                                                        </button>
+                                                    ) : null}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                    <button 
+                                        type="button" 
+                                        onClick={addGuest}
+                                        style={{
+                                            background: 'transparent',
+                                            border: '2px solid var(--pb-black)',
+                                            fontFamily: 'var(--font-inter)',
+                                            fontWeight: 'bold',
+                                            padding: '8px 15px',
+                                            cursor: 'pointer',
+                                            textTransform: 'uppercase',
+                                            fontSize: '0.8rem',
+                                            marginTop: '10px'
+                                        }}
+                                    >
+                                        + Add Another Guest
+                                    </button>
+                                </div>
+                            ) : null}
 
-                    <div className="form-group">
-                        <label htmlFor="songRequest">Song Request</label>
-                        <input
-                            type="text"
-                            id="songRequest"
-                            name="SongRequest"
-                            value={formData.SongRequest}
-                            onChange={handleInputChange}
-                            placeholder="What song will get you on the dance floor?"
-                        />
-                    </div>
+                            <div className="form-group" style={{ marginTop: '20px' }}>
+                                <label htmlFor="email">Email Address *</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="Email"
+                                    value={formData.Email}
+                                    onChange={handleInputChange}
+                                    placeholder="yourname@example.com"
+                                    required
+                                />
+                            </div>
 
-                    {submitError && <p style={{ color: 'red', fontFamily: 'var(--font-inter)', fontSize: '0.9rem' }}>{submitError}</p>}
+                            <div className="form-group">
+                                <label htmlFor="restrictions">Dietary Restrictions</label>
+                                <textarea
+                                    id="restrictions"
+                                    name="Dietary"
+                                    value={formData.Dietary}
+                                    onChange={handleInputChange}
+                                    rows="2"
+                                    placeholder="(Optional) Any allergies or dietary needs?"
+                                />
+                            </div>
 
-                    <button type="submit" className="submit-rsvp" disabled={isSubmitting}>
+                            <div className="form-group">
+                                <label htmlFor="songRequest">Song Request</label>
+                                <input
+                                    type="text"
+                                    id="songRequest"
+                                    name="SongRequest"
+                                    value={formData.SongRequest}
+                                    onChange={handleInputChange}
+                                    placeholder="(Optional) What song gets you on the dance floor?"
+                                />
+                            </div>
+                        </>
+                    ) : formData.Attending === 'No' ? (
+                        <div className="form-group" style={{ marginTop: '30px' }}>
+                            <label htmlFor="name">Your Name *</label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="Name"
+                                value={formData.Name}
+                                onChange={handleInputChange}
+                                placeholder="John Doe"
+                                required
+                            />
+                        </div>
+                    ) : null}
+
+                    {submitError && <p style={{ color: 'red', fontFamily: 'var(--font-inter)', fontSize: '0.9rem', marginBottom: '15px', fontWeight: 'bold' }}>{submitError}</p>}
+
+                    <button type="submit" className="submit-rsvp" disabled={isSubmitting} style={{ marginTop: '10px' }}>
                         {isSubmitting ? 'Submitting...' : 'Submit RSVP'}
                     </button>
                 </form>
