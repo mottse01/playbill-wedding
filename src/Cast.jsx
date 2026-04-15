@@ -2,8 +2,8 @@ import React from 'react';
 import './Cast.css';
 
 const castMembers = [
+    { name: 'Desiree Bernavel', role: 'The Bride', bio: 'Desi is ready for her close-up.', image: '/sean.jpg' },
     { name: 'Sean Mott', role: 'The Groom', bio: 'Sean is starring in his biggest role yet.', image: '/desiree.jpg' },
-    { name: 'Desiree Bernavel', role: 'The Bride', bio: 'Desiree is ready for her close-up.', image: '/sean.jpg' },
     // Add wedding party here
 ];
 

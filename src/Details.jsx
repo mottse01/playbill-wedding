@@ -10,6 +10,13 @@ export default function Details() {
                 <div className="detail-block">
                     <h3>The Venue</h3>
                     <p><strong>The Mott Farm</strong></p>
+                    <img
+                        src="/mott-farm-sign.png"
+                        alt="The Mott Farm sign at sunset"
+                        className="venue-photo"
+                        loading="lazy"
+                        decoding="async"
+                    />
                     <p>We are thrilled to invite you to our celebration. The ceremony and reception will be held at The Mott Farm located at 280 Sycamore Lane, Biglerville, PA 17325.</p>
 
                     <div className="directions-actions" style={{ display: 'flex', gap: '10px', marginTop: '10px', justifyContent: 'center' }}>

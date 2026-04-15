@@ -4,6 +4,7 @@ import './RSVP.css';
 // Replace this URL once you set up your SheetDB or Google Apps Script Web App
 const SHEET_API_URL = "https://sheetdb.io/api/v1/690vy6jy2cx6b?sheet=RSVPs";
 const RSVP_STORAGE_KEY = 'playbillWeddingRsvpStatus';
+const RSVP_STATUS_EVENT = 'playbill-rsvp-status-changed';
 
 const newSubmissionId = () =>
     typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
@@ -32,6 +33,7 @@ export default function RSVP() {
 
     const clearStoredRsvp = () => {
         window.localStorage.removeItem(RSVP_STORAGE_KEY);
+        window.dispatchEvent(new CustomEvent(RSVP_STATUS_EVENT, { detail: { attending: null } }));
         setSubmitSuccess(false);
         setSubmitAttending(null);
         setSubmitError('');
@@ -182,6 +184,7 @@ export default function RSVP() {
                     timestamp: new Date().toISOString(),
                 })
             );
+            window.dispatchEvent(new CustomEvent(RSVP_STATUS_EVENT, { detail: { attending: formData.Attending } }));
         } catch (error) {
             console.error('Error submitting form:', error);
             setSubmitError('Something went wrong. Please try again or contact us directly.');

@@ -13,7 +13,13 @@
     height: 100%;
     display: block;
     transform-origin: center center;
-    animation: cover-zoom-out 1800ms cubic-bezier(0.16, 0.84, 0.2, 1) both;
+    background-color: var(--pb-black);
+    opacity: 0;
+    transform: scale(2.7);
+}
+
+.hero-cover-picture.is-loaded {
+    animation: cover-reveal-zoom 1800ms cubic-bezier(0.16, 0.84, 0.2, 1) both;
 }
 
 .hero-cover-image {
@@ -24,17 +30,23 @@
     display: block;
 }
 
-@keyframes cover-zoom-out {
-    from {
+@keyframes cover-reveal-zoom {
+    0% {
+        opacity: 0;
         transform: scale(2.7);
     }
-    to {
+    12% {
+        opacity: 1;
+        transform: scale(2.62);
+    }
+    100% {
+        opacity: 1;
         transform: scale(1);
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .hero-cover-picture {
+    .hero-cover-picture.is-loaded {
         animation: none;
     }
 }

@@ -25,6 +25,20 @@ body {
   --font-playfair: 'Playfair Display', serif;
   --font-inter: 'Inter', sans-serif;
 
+  /* .menu-toggle fixed control (top-right) */
+  --pb-float-btn-pad-y: 10px;
+  --pb-float-btn-pad-x: 12px;
+  --pb-float-btn-icon-w: 18px;
+  --pb-float-btn-icon-h: 14px;
+  --pb-float-btn-border: 2px;
+  /* border-box outer size = icon + padding + border (same math as hamburger button) */
+  --pb-float-btn-outer-w: calc(
+    var(--pb-float-btn-icon-w) + 2 * var(--pb-float-btn-pad-x) + 2 * var(--pb-float-btn-border)
+  );
+  --pb-float-btn-outer-h: calc(
+    var(--pb-float-btn-icon-h) + 2 * var(--pb-float-btn-pad-y) + 2 * var(--pb-float-btn-border)
+  );
+
   color-scheme: light;
   color: var(--pb-black);
   background-color: var(--pb-cream);
@@ -75,6 +89,11 @@ a {
 }
 
 @media (max-width: 600px) {
+  :root {
+    --pb-float-btn-pad-y: 8px;
+    --pb-float-btn-pad-x: 10px;
+  }
+
   .playbill-container {
     margin: 0;
     border-left: none;

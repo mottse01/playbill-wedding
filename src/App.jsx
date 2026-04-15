@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Header from './Header';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Hero from './Hero';
 import Cast from './Cast';
 import Schedule from './Schedule';
@@ -9,11 +8,33 @@ import RSVP from './RSVP';
 import Navigation from './Navigation';
 import './App.css';
 
+/** Hide floating chrome after this long with no input (ms). */
+const FLOATING_UI_IDLE_MS = 2000;
+/** Avoid resetting the idle timer on every pointermove frame. */
+const FLOATING_UI_MOVE_THROTTLE_MS = 200;
+
 function App() {
   const containerRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [floatingUiIdle, setFloatingUiIdle] = useState(false);
+  const floatingIdleTimerRef = useRef(null);
+  const lastMoveWakeRef = useRef(0);
+
+  const scheduleFloatingUiHide = useCallback(() => {
+    if (floatingIdleTimerRef.current) {
+      window.clearTimeout(floatingIdleTimerRef.current);
+    }
+    floatingIdleTimerRef.current = window.setTimeout(() => {
+      setFloatingUiIdle(true);
+    }, FLOATING_UI_IDLE_MS);
+  }, []);
+
+  const wakeFloatingUi = useCallback(() => {
+    setFloatingUiIdle(false);
+    scheduleFloatingUiHide();
+  }, [scheduleFloatingUiHide]);
 
   const handleScroll = () => {
     if (!containerRef.current) return;
@@ -62,8 +83,55 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const pages = Array.from(containerRef.current.children);
+    pages.forEach((page, idx) => {
+      if (idx !== activeIndex) {
+        page.scrollTop = 0;
+      }
+    });
+  }, [activeIndex]);
+
+  useEffect(() => {
+    scheduleFloatingUiHide();
+
+    const onWake = () => wakeFloatingUi();
+
+    const onPointerMove = () => {
+      const now = Date.now();
+      if (now - lastMoveWakeRef.current < FLOATING_UI_MOVE_THROTTLE_MS) return;
+      lastMoveWakeRef.current = now;
+      wakeFloatingUi();
+    };
+
+    const opts = { capture: true, passive: true };
+    window.addEventListener('pointerdown', onWake, opts);
+    window.addEventListener('pointermove', onPointerMove, opts);
+    window.addEventListener('keydown', onWake);
+    window.addEventListener('wheel', onWake, opts);
+    window.addEventListener('touchstart', onWake, opts);
+    window.addEventListener('focusin', onWake);
+
+    const stream = containerRef.current;
+    stream?.addEventListener('scroll', onWake, opts);
+
+    return () => {
+      window.removeEventListener('pointerdown', onWake, opts);
+      window.removeEventListener('pointermove', onPointerMove, opts);
+      window.removeEventListener('keydown', onWake);
+      window.removeEventListener('wheel', onWake, opts);
+      window.removeEventListener('touchstart', onWake, opts);
+      window.removeEventListener('focusin', onWake);
+      stream?.removeEventListener('scroll', onWake, opts);
+      if (floatingIdleTimerRef.current) {
+        window.clearTimeout(floatingIdleTimerRef.current);
+      }
+    };
+  }, [wakeFloatingUi, scheduleFloatingUiHide]);
+
   return (
-    <div className="playbill-theme">
+    <div className={`playbill-theme${floatingUiIdle ? ' is-floating-ui-idle' : ''}`}>
       
       <Navigation />
 

@@ -21,6 +21,36 @@ body {
   position: relative;
 }
 
+/* Floating chrome fades after inactivity — see App.jsx (.menu-toggle opacity in Navigation.css) */
+.nav-arrows {
+  transition: opacity 0.45s ease;
+}
+
+.playbill-theme.is-floating-ui-idle .menu-toggle,
+.playbill-theme.is-floating-ui-idle .nav-arrows {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Keep menu control usable while drawer or overlay is open */
+.playbill-theme.is-floating-ui-idle:has(.menu-overlay) .menu-toggle,
+.playbill-theme.is-floating-ui-idle:has(.playbill-nav.open) .menu-toggle {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.playbill-theme.is-floating-ui-idle .pagination-dots {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-arrows,
+  .pagination-dots {
+    transition-duration: 0.01ms;
+  }
+}
+
 .playbill-theme::before {
   content: '';
   position: fixed;

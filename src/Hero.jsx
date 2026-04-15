@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Hero.css';
 
 export default function Hero() {
+    const [isCoverLoaded, setIsCoverLoaded] = useState(false);
+
     return (
         <div className="playbill-hero">
-            <picture className="hero-cover-picture">
+            <picture className={`hero-cover-picture${isCoverLoaded ? ' is-loaded' : ''}`}>
                 <source
                     type="image/avif"
                     srcSet="/optimized/cover-900.avif 900w, /optimized/cover-1400.avif 1400w"
@@ -23,6 +25,7 @@ export default function Hero() {
                     height="1800"
                     fetchPriority="high"
                     decoding="async"
+                    onLoad={() => setIsCoverLoaded(true)}
                 />
             </picture>
         </div>

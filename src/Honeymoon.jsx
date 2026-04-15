@@ -146,6 +146,13 @@ export default function Honeymoon() {
                 <div className="fund-box">
                     <h3 className="fund-title">Contribute to the Adventure</h3>
                     <p className="fund-desc">Help us explore the world together.</p>
+                    <img
+                        src="/curtain-call-photo.png"
+                        alt="Desi and Sean together on a palm-lined walkway at night"
+                        className="honeymoon-feature-photo"
+                        loading="lazy"
+                        decoding="async"
+                    />
 
                     <div className="fund-actions">
                         <button onClick={() => setIsModalOpen(true)} className="utility-btn fund-btn">GIFT TO THE HONEYMOON FUND</button>

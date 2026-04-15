@@ -4,19 +4,28 @@
     top: 20px;
     right: 20px;
     z-index: 2000;
+    box-sizing: border-box;
+    width: var(--pb-float-btn-outer-w);
+    height: var(--pb-float-btn-outer-h);
     background-color: var(--pb-black);
     color: white;
-    border: 2px solid var(--pb-orange-red);
-    padding: 10px 12px;
+    border: var(--pb-float-btn-border) solid var(--pb-orange-red);
+    padding: var(--pb-float-btn-pad-y) var(--pb-float-btn-pad-x);
     display: flex;
     align-items: center;
+    justify-content: center;
     cursor: pointer;
     font-family: var(--font-inter);
     font-weight: 800;
     font-size: 0.8rem;
     letter-spacing: 0.1em;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
+    transition:
+        opacity 0.45s ease,
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 .menu-toggle.open {
@@ -123,7 +132,6 @@
     .menu-toggle {
         top: 10px;
         right: 15px;
-        padding: 8px 10px;
         font-size: 0.75rem;
     }
 
