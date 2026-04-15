@@ -36,12 +36,6 @@ function App() {
     }
   };
 
-  const scrollToPage = (index) => {
-    if (containerRef.current) {
-      containerRef.current.children[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    }
-  };
-
   useEffect(() => {
     // Observer for fade-reveal animations
     const animationObserver = new IntersectionObserver((entries) => {

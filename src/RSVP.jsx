@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './RSVP.css';
 
 // Replace this URL once you set up your SheetDB or Google Apps Script Web App
 const SHEET_API_URL = "https://sheetdb.io/api/v1/690vy6jy2cx6b?sheet=RSVPs";
+const RSVP_STORAGE_KEY = 'playbillWeddingRsvpStatus';
 
 const newSubmissionId = () =>
     typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
@@ -10,7 +11,7 @@ const newSubmissionId = () =>
         : `rsvp-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
 
 export default function RSVP() {
-    const [formData, setFormData] = useState({
+    const initialFormState = {
         Name: '',
         GuestNames: ['', ''],
         Email: '',
@@ -18,10 +19,40 @@ export default function RSVP() {
         PartyMode: '',
         Dietary: '',
         SongRequest: ''
+    };
+
+    const [formData, setFormData] = useState({
+        ...initialFormState
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const [submitError, setSubmitError] = useState('');
+    const [submitAttending, setSubmitAttending] = useState(null);
+    const [isStoredResponse, setIsStoredResponse] = useState(false);
+
+    const clearStoredRsvp = () => {
+        window.localStorage.removeItem(RSVP_STORAGE_KEY);
+        setSubmitSuccess(false);
+        setSubmitAttending(null);
+        setSubmitError('');
+        setIsStoredResponse(false);
+        setFormData({ ...initialFormState });
+    };
+
+    useEffect(() => {
+        try {
+            const raw = window.localStorage.getItem(RSVP_STORAGE_KEY);
+            if (!raw) return;
+            const saved = JSON.parse(raw);
+            if (saved?.submitted === true && (saved.attending === 'Yes' || saved.attending === 'No')) {
+                setSubmitAttending(saved.attending);
+                setSubmitSuccess(true);
+                setIsStoredResponse(true);
+            }
+        } catch {
+            // Ignore malformed localStorage data and continue with the form.
+        }
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -140,7 +171,17 @@ export default function RSVP() {
                 throw new Error('Network response was not ok');
             }
 
+            setSubmitAttending(formData.Attending);
             setSubmitSuccess(true);
+            setIsStoredResponse(false);
+            window.localStorage.setItem(
+                RSVP_STORAGE_KEY,
+                JSON.stringify({
+                    submitted: true,
+                    attending: formData.Attending,
+                    timestamp: new Date().toISOString(),
+                })
+            );
         } catch (error) {
             console.error('Error submitting form:', error);
             setSubmitError('Something went wrong. Please try again or contact us directly.');
@@ -152,12 +193,23 @@ export default function RSVP() {
     return (
         <section id="box-office" className="playbill-section rsvp-section">
             <h2 className="section-title">Box Office: RSVP</h2>
-            <p className="rsvp-subtitle">Please claim your tickets by August 1st.</p>
+            <p className="rsvp-subtitle">Please RSVP by August 1st.</p>
 
             {submitSuccess ? (
-                <div className="rsvp-success-message" style={{ textAlign: 'center', padding: '20px', border: '2px solid var(--pb-black)', backgroundColor: 'var(--pb-cream)' }}>
-                    <h3 style={{ fontFamily: 'var(--font-ultra)', marginBottom: '10px' }}>Tickets Confirmed!</h3>
-                    <p style={{ fontFamily: 'var(--font-inter)' }}>Thank you for your RSVP, we look forward to seeing you on October 10th!</p>
+                <div className="rsvp-success-message">
+                    <h3>{submitAttending === 'No' ? 'RSVP Received' : 'You Are On the Guest List!'}</h3>
+                    <p>
+                        {submitAttending === 'No'
+                            ? isStoredResponse
+                                ? 'We have your RSVP on file. We will miss celebrating with you this time.'
+                                : 'Thank you for letting us know. We will miss celebrating with you this time.'
+                            : isStoredResponse
+                                ? 'We have your RSVP on file and cannot wait to celebrate with you on October 10th!'
+                                : 'Thank you for your RSVP. We cannot wait to celebrate with you on October 10th!'}
+                    </p>
+                    <button type="button" className="rsvp-update-btn" onClick={clearStoredRsvp}>
+                        Update RSVP
+                    </button>
                 </div>
             ) : (
                 <form className="rsvp-form" onSubmit={handleSubmit}>

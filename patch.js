@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'node:fs';
 const file = '/Users/seanmott/.gemini/antigravity/brain/ff551d7a-95b8-4242-9fbc-5589911523b1/playbill-wedding/src/App.css';
 let content = fs.readFileSync(file, 'utf8');
 content = content.replace(
