@@ -6,11 +6,6 @@ export default function Hero() {
 
     return (
         <div className="playbill-hero">
-            <div className="horizontal-hint">
-                <span className="hint-arrow">❮</span>
-                <span className="hint-text">Swipe to Open</span>
-                <span className="hint-arrow">❯</span>
-            </div>
             <picture className={`hero-cover-picture${isCoverLoaded ? ' is-loaded' : ''}`}>
                 <source
                     type="image/avif"
