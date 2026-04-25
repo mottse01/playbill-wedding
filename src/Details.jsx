@@ -3,7 +3,7 @@ import './Details.css';
 
 export default function Details() {
     return (
-        <section id="the-setting" className="playbill-section details-section">
+        <section className="playbill-section details-section">
             <h2 className="section-title">The Setting</h2>
 
             <div className="details-content">

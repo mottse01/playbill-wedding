@@ -5,9 +5,11 @@ export default function Navigation() {
     const [isOpen, setIsOpen] = useState(false);
 
     const scrollTo = (id) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth', inline: 'start' });
+        const stream = document.querySelector('.pdf-stream');
+        const page = stream?.querySelector(`:scope > .playbill-page#${CSS.escape(id)}`);
+        if (stream && page) {
+            // offsetLeft is not relative to .pdf-stream; align like scroll-snap / nav arrows
+            page.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
             setIsOpen(false);
         }
     };
@@ -31,8 +33,8 @@ export default function Navigation() {
                     <li><button onClick={() => scrollTo('the-cast')}>THE CAST</button></li>
                     <li><button onClick={() => scrollTo('the-program')}>THE PROGRAM</button></li>
                     <li><button onClick={() => scrollTo('the-setting')}>THE SETTING</button></li>
-                    <li><button onClick={() => scrollTo('honeymoon-fund')}>CURTAIN CALL</button></li>
                     <li><button onClick={() => scrollTo('box-office')} className="rsvp-btn">BOX OFFICE</button></li>
+                    <li><button onClick={() => scrollTo('honeymoon-fund')}>CURTAIN CALL</button></li>
                 </ul>
             </nav>
             {isOpen && <div className="menu-overlay" onClick={() => setIsOpen(false)}></div>}

@@ -27,7 +27,7 @@ END:VCALENDAR`;
     const icsLink = `data:text/calendar;charset=utf8,${encodeURIComponent(icsContent)}`;
 
     return (
-        <section id="the-program" className="playbill-section schedule-section">
+        <section className="playbill-section schedule-section">
             <h2 className="section-title">The Program</h2>
             <p className="schedule-date">Saturday, October 10th, 2026</p>
             <div className="schedule-timeline">

@@ -26,7 +26,11 @@ body {
   transition: opacity 0.45s ease;
 }
 
-.playbill-theme.is-floating-ui-idle .menu-toggle,
+.playbill-theme.is-floating-ui-idle .menu-toggle {
+  opacity: 0;
+  pointer-events: auto; /* Allow waking/clicking even when faded */
+}
+
 .playbill-theme.is-floating-ui-idle .nav-arrows {
   opacity: 0;
   pointer-events: none;

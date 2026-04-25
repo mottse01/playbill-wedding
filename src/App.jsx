@@ -8,6 +8,16 @@ import RSVP from './RSVP';
 import Navigation from './Navigation';
 import './App.css';
 
+/** One source of truth for horizontal order — Curtain Call (honeymoon) is always last. */
+const STREAM_SLIDES = [
+  { key: 'cover', pageId: null, cover: true, Content: Hero },
+  { key: 'cast', pageId: 'the-cast', cover: false, Content: Cast },
+  { key: 'program', pageId: 'the-program', cover: false, Content: Schedule },
+  { key: 'setting', pageId: 'the-setting', cover: false, Content: Details },
+  { key: 'box-office', pageId: 'box-office', cover: false, Content: RSVP },
+  { key: 'honeymoon', pageId: 'honeymoon-fund', cover: false, Content: Honeymoon },
+];
+
 /** Hide floating chrome after this long with no input (ms). */
 const FLOATING_UI_IDLE_MS = 2000;
 /** Avoid resetting the idle timer on every pointermove frame. */
@@ -48,7 +58,7 @@ function App() {
     setActiveIndex(index);
   };
 
-  const totalPages = 6;
+  const totalPages = STREAM_SLIDES.length;
   
   const scrollByPage = (direction) => {
     if (containerRef.current) {
@@ -146,33 +156,33 @@ function App() {
         ) : <div style={{width: 58}}></div>}
       </div>
 
-      
+      {/* Pagination Dots */}
+      <div className="pagination-dots">
+        {STREAM_SLIDES.map((_, idx) => (
+          <button 
+            key={idx} 
+            className={`dot${idx === activeIndex ? " active" : ""}`}
+            onClick={() => {
+              containerRef.current.children[idx].scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+            }}
+            aria-label={`Go to page ${idx + 1}`}
+          />
+        ))}
+      </div>
 
       <div className="pdf-stream" ref={containerRef} onScroll={handleScroll}>
-        <div className="playbill-page playbill-cover-page">
-          <Hero />
-        </div>
-
-        <div className="playbill-page" id="the-cast">
-          <Cast />
-        </div>
-
-        <div className="playbill-page" id="the-program">
-          <Schedule />
-        </div>
-
-        <div className="playbill-page" id="the-setting">
-          <Details />
-        </div>
-
-        <div className="playbill-page" id="honeymoon-fund">
-          <Honeymoon />
-        </div>
-
-        {/* Final page has NO indicator */}
-        <div className="playbill-page" id="box-office">
-          <RSVP />
-        </div>
+        {STREAM_SLIDES.map((slide) => {
+          const SlideContent = slide.Content;
+          return (
+            <div
+              key={slide.key}
+              id={slide.pageId ?? undefined}
+              className={`playbill-page${slide.cover ? ' playbill-cover-page' : ''}`}
+            >
+              <SlideContent />
+            </div>
+          );
+        })}
       </div>
     </div>
   );

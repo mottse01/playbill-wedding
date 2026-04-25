@@ -135,7 +135,7 @@ export default function Honeymoon() {
     }, [isModalOpen]);
 
     return (
-        <section id="honeymoon-fund" className="playbill-section honeymoon-section">
+        <section className="playbill-section honeymoon-section">
             <h2 className="section-title">Curtain Call: The Honeymoon</h2>
 
             <div className="honeymoon-content">

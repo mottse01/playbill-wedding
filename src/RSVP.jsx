@@ -5,6 +5,16 @@ import './RSVP.css';
 const SHEET_API_URL = "https://sheetdb.io/api/v1/690vy6jy2cx6b?sheet=RSVPs";
 const RSVP_STORAGE_KEY = 'playbillWeddingRsvpStatus';
 const RSVP_STATUS_EVENT = 'playbill-rsvp-status-changed';
+/** While set, hide “Update RSVP” until a new browsing session (tab closed / site left). */
+const RSVP_SESSION_HIDE_UPDATE_KEY = 'playbillWeddingRsvpSubmittedThisSession';
+
+function shouldShowUpdateRsvpButton() {
+    try {
+        return !window.sessionStorage.getItem(RSVP_SESSION_HIDE_UPDATE_KEY);
+    } catch {
+        return true;
+    }
+}
 
 const newSubmissionId = () =>
     typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
@@ -30,8 +40,14 @@ export default function RSVP() {
     const [submitError, setSubmitError] = useState('');
     const [submitAttending, setSubmitAttending] = useState(null);
     const [isStoredResponse, setIsStoredResponse] = useState(false);
+    const [showUpdateRsvp, setShowUpdateRsvp] = useState(() => shouldShowUpdateRsvpButton());
 
     const clearStoredRsvp = () => {
+        try {
+            window.sessionStorage.removeItem(RSVP_SESSION_HIDE_UPDATE_KEY);
+        } catch {
+            // ignore
+        }
         window.localStorage.removeItem(RSVP_STORAGE_KEY);
         window.dispatchEvent(new CustomEvent(RSVP_STATUS_EVENT, { detail: { attending: null } }));
         setSubmitSuccess(false);
@@ -50,6 +66,7 @@ export default function RSVP() {
                 setSubmitAttending(saved.attending);
                 setSubmitSuccess(true);
                 setIsStoredResponse(true);
+                setShowUpdateRsvp(shouldShowUpdateRsvpButton());
             }
         } catch {
             // Ignore malformed localStorage data and continue with the form.
@@ -176,6 +193,12 @@ export default function RSVP() {
             setSubmitAttending(formData.Attending);
             setSubmitSuccess(true);
             setIsStoredResponse(false);
+            try {
+                window.sessionStorage.setItem(RSVP_SESSION_HIDE_UPDATE_KEY, '1');
+            } catch {
+                // ignore private mode / quota
+            }
+            setShowUpdateRsvp(false);
             window.localStorage.setItem(
                 RSVP_STORAGE_KEY,
                 JSON.stringify({
@@ -194,7 +217,7 @@ export default function RSVP() {
     };
 
     return (
-        <section id="box-office" className="playbill-section rsvp-section">
+        <section className="playbill-section rsvp-section">
             <h2 className="section-title">Box Office: RSVP</h2>
             <p className="rsvp-subtitle">Please RSVP by August 1st.</p>
 
@@ -210,9 +233,11 @@ export default function RSVP() {
                                 ? 'We have your RSVP on file and cannot wait to celebrate with you on October 10th!'
                                 : 'Thank you for your RSVP. We cannot wait to celebrate with you on October 10th!'}
                     </p>
-                    <button type="button" className="rsvp-update-btn" onClick={clearStoredRsvp}>
-                        Update RSVP
-                    </button>
+                    {showUpdateRsvp ? (
+                        <button type="button" className="rsvp-update-btn" onClick={clearStoredRsvp}>
+                            Update RSVP
+                        </button>
+                    ) : null}
                 </div>
             ) : (
                 <form className="rsvp-form" onSubmit={handleSubmit}>

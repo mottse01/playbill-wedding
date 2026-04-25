@@ -36,7 +36,7 @@ const engagementPhotos = [
 
 export default function Cast() {
     return (
-        <section id="the-cast" className="playbill-section cast-section">
+        <section className="playbill-section cast-section">
             <h2 className="section-title">Who's Who in the Cast</h2>
             <div className="cast-grid">
                 {castMembers.map((member, idx) => (
