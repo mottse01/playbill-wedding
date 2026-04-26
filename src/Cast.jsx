@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import './Cast.css';
 
 const castMembers = [
@@ -35,6 +36,53 @@ const engagementPhotos = [
 ];
 
 export default function Cast() {
+    const [lightboxIndex, setLightboxIndex] = useState(null);
+    const [touchStart, setTouchStart] = useState(null);
+    const [touchEnd, setTouchEnd] = useState(null);
+
+    const handleNext = useCallback((e) => {
+        if (e) e.stopPropagation();
+        setLightboxIndex(prev => prev === null ? null : (prev + 1) % engagementPhotos.length);
+    }, []);
+
+    const handlePrev = useCallback((e) => {
+        if (e) e.stopPropagation();
+        setLightboxIndex(prev => prev === null ? null : (prev - 1 + engagementPhotos.length) % engagementPhotos.length);
+    }, []);
+
+    const handleClose = useCallback((e) => {
+        if (e) e.stopPropagation();
+        setLightboxIndex(null);
+    }, []);
+
+    useEffect(() => {
+        if (lightboxIndex === null) return;
+        const handleKeyDown = (e) => {
+            if (e.key === 'ArrowRight') handleNext();
+            if (e.key === 'ArrowLeft') handlePrev();
+            if (e.key === 'Escape') handleClose();
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [lightboxIndex, handleNext, handlePrev, handleClose]);
+
+    const onTouchStart = (e) => {
+        setTouchEnd(null);
+        setTouchStart(e.targetTouches[0].clientX);
+    };
+
+    const onTouchMove = (e) => {
+        setTouchEnd(e.targetTouches[0].clientX);
+    };
+
+    const onTouchEnd = () => {
+        if (!touchStart || !touchEnd) return;
+        const distance = touchStart - touchEnd;
+        const minSwipeDistance = 50;
+        if (distance > minSwipeDistance) handleNext();
+        if (distance < -minSwipeDistance) handlePrev();
+    };
+
     return (
         <section className="playbill-section cast-section">
             <h2 className="section-title">Who's Who in the Cast</h2>
@@ -79,7 +127,7 @@ export default function Cast() {
                 </div>
                 <div className="photo-carousel">
                     {engagementPhotos.map((photo, idx) => (
-                        <div key={idx} className="photo-item">
+                        <div key={idx} className="photo-item" onClick={() => setLightboxIndex(idx)} role="button" aria-label="Enlarge photo" tabIndex={0}>
                             <picture>
                                 <source
                                     type="image/avif"
@@ -104,6 +152,27 @@ export default function Cast() {
                     ))}
                 </div>
             </div>
+
+            {lightboxIndex !== null && createPortal(
+                <div 
+                    className="lightbox-overlay" 
+                    onClick={handleClose}
+                    onTouchStart={onTouchStart}
+                    onTouchMove={onTouchMove}
+                    onTouchEnd={onTouchEnd}
+                >
+                    <button className="lightbox-close" onClick={handleClose} aria-label="Close lightbox">&times;</button>
+                    <button className="lightbox-nav prev" onClick={handlePrev} aria-label="Previous photo">&#10094;</button>
+                    <img 
+                        src={`/optimized/${engagementPhotos[lightboxIndex]}-640.webp`} 
+                        alt="Enlarged engagement photo" 
+                        className={`lightbox-image ${engagementPhotos[lightboxIndex]}`} 
+                        onClick={(e) => e.stopPropagation()}
+                    />
+                    <button className="lightbox-nav next" onClick={handleNext} aria-label="Next photo">&#10095;</button>
+                </div>,
+                document.body
+            )}
         </section>
     );
 }
