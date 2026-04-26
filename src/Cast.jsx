@@ -164,7 +164,7 @@ export default function Cast() {
                     <button className="lightbox-close" onClick={handleClose} aria-label="Close lightbox">&times;</button>
                     <button className="lightbox-nav prev" onClick={handlePrev} aria-label="Previous photo">&#10094;</button>
                     <img 
-                        src={`/optimized/${engagementPhotos[lightboxIndex]}-640.webp`} 
+                        src={`/optimized/${engagementPhotos[lightboxIndex]}-1200.webp`} 
                         alt="Enlarged engagement photo" 
                         className={`lightbox-image ${engagementPhotos[lightboxIndex]}`} 
                         onClick={(e) => e.stopPropagation()}
