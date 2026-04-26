@@ -92,17 +92,17 @@ export default function Cast() {
                         {member.image ? (
                             <picture>
                                 <source
-                                    type="image/avif"
-                                    srcSet={`/optimized/${imageStem(member.image)}-120.avif 120w, /optimized/${imageStem(member.image)}-240.avif 240w`}
+                                    type="image.avif?v=2"
+                                    srcSet={`/optimized/${imageStem(member.image)}-120.avif?v=2 120w, /optimized/${imageStem(member.image)}-240.avif?v=2 240w`}
                                     sizes="(max-width: 600px) 160px, 120px"
                                 />
                                 <source
                                     type="image/webp"
-                                    srcSet={`/optimized/${imageStem(member.image)}-120.webp 120w, /optimized/${imageStem(member.image)}-240.webp 240w`}
+                                    srcSet={`/optimized/${imageStem(member.image)}-120.webp?v=2 120w, /optimized/${imageStem(member.image)}-240.webp?v=2 240w`}
                                     sizes="(max-width: 600px) 160px, 120px"
                                 />
                                 <img
-                                    src={`/optimized/${imageStem(member.image)}-240.webp`}
+                                    src={`/optimized/${imageStem(member.image)}-240.webp?v=2`}
                                     alt={member.name}
                                     className="headshot-image"
                                     width="120"
@@ -130,17 +130,17 @@ export default function Cast() {
                         <div key={idx} className="photo-item" onClick={() => setLightboxIndex(idx)} role="button" aria-label="Enlarge photo" tabIndex={0}>
                             <picture>
                                 <source
-                                    type="image/avif"
-                                    srcSet={`/optimized/${photo}-320.avif 320w, /optimized/${photo}-640.avif 640w`}
+                                    type="image.avif?v=2"
+                                    srcSet={`/optimized/${photo}-320.avif?v=2 320w, /optimized/${photo}-640.avif?v=2 640w`}
                                     sizes="(max-width: 600px) 70vw, 240px"
                                 />
                                 <source
                                     type="image/webp"
-                                    srcSet={`/optimized/${photo}-320.webp 320w, /optimized/${photo}-640.webp 640w`}
+                                    srcSet={`/optimized/${photo}-320.webp?v=2 320w, /optimized/${photo}-640.webp?v=2 640w`}
                                     sizes="(max-width: 600px) 70vw, 240px"
                                 />
                                 <img
-                                    src={`/optimized/${photo}-640.webp`}
+                                    src={`/optimized/${photo}-640.webp?v=2`}
                                     alt={`Engagement Still ${idx + 1}`}
                                     loading="lazy"
                                     decoding="async"
@@ -164,7 +164,7 @@ export default function Cast() {
                     <button className="lightbox-close" onClick={handleClose} aria-label="Close lightbox">&times;</button>
                     <button className="lightbox-nav prev" onClick={handlePrev} aria-label="Previous photo">&#10094;</button>
                     <img 
-                        src={`/optimized/${engagementPhotos[lightboxIndex]}-1200.webp`} 
+                        src={`/optimized/${engagementPhotos[lightboxIndex]}-1200.webp?v=2`} 
                         alt="Enlarged engagement photo" 
                         className={`lightbox-image ${engagementPhotos[lightboxIndex]}`} 
                         onClick={(e) => e.stopPropagation()}
