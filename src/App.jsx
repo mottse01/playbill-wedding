@@ -87,11 +87,58 @@ function App() {
     handleScroll();
     window.addEventListener('resize', handleScroll);
 
+    // Initial Load: Snap to hash if present
+    const initialHash = window.location.hash.replace('#', '');
+    if (initialHash && containerRef.current) {
+      const targetIndex = STREAM_SLIDES.findIndex(s => s.pageId === initialHash);
+      if (targetIndex !== -1) {
+        setTimeout(() => {
+          if (containerRef.current && containerRef.current.children[targetIndex]) {
+            containerRef.current.children[targetIndex].scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'center' });
+          }
+        }, 50); // slight delay to ensure layout is ready
+      }
+    }
+
     return () => {
       animationObserver.disconnect();
       window.removeEventListener('resize', handleScroll);
     };
   }, []);
+
+  // Hash Change Listener: Handle browser back/forward buttons
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      const targetIndex = STREAM_SLIDES.findIndex(s => s.pageId === hash);
+      
+      if (targetIndex !== -1 && targetIndex !== activeIndex && containerRef.current) {
+        containerRef.current.children[targetIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      } else if (!hash && activeIndex !== 0 && containerRef.current) {
+        containerRef.current.children[0].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    };
+    
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [activeIndex]);
+
+  // Active State Sync: Update URL when page changes
+  useEffect(() => {
+    const currentSlide = STREAM_SLIDES[activeIndex];
+    const hash = currentSlide.pageId ? `#${currentSlide.pageId}` : '';
+    
+    // Debounce to avoid pushing intermediate pages to history during a long smooth scroll
+    const timeoutId = setTimeout(() => {
+      const currentHash = window.location.hash;
+      if (currentHash !== hash && !(currentHash === '' && hash === '')) {
+        // Push state so back button works for page flips
+        window.history.pushState(null, '', hash || window.location.pathname + window.location.search);
+      }
+    }, 400);
+
+    return () => clearTimeout(timeoutId);
+  }, [activeIndex]);
 
   useEffect(() => {
     if (!containerRef.current) return;
