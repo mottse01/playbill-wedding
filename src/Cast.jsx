@@ -39,6 +39,11 @@ export default function Cast() {
     const [lightboxIndex, setLightboxIndex] = useState(null);
     const [touchStart, setTouchStart] = useState(null);
     const [touchEnd, setTouchEnd] = useState(null);
+    const [imageLoaded, setImageLoaded] = useState(false);
+
+    useEffect(() => {
+        setImageLoaded(false);
+    }, [lightboxIndex]);
 
     const handleNext = useCallback((e) => {
         if (e) e.stopPropagation();
@@ -166,7 +171,8 @@ export default function Cast() {
                     <img 
                         src={`/optimized/${engagementPhotos[lightboxIndex]}-1200.webp?v=2`} 
                         alt="Enlarged engagement photo" 
-                        className={`lightbox-image ${engagementPhotos[lightboxIndex]}`} 
+                        className={`lightbox-image ${imageLoaded ? 'loaded' : 'loading'}`} 
+                        onLoad={() => setImageLoaded(true)}
                         onClick={(e) => e.stopPropagation()}
                     />
                     <button className="lightbox-nav next" onClick={handleNext} aria-label="Next photo">&#10095;</button>
